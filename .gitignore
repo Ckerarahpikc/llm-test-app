@@ -1,0 +1,9 @@
+# backend
+/llm-backend/node_modules/
+/llm-backend/package-lock.json
+/llm-backend/.env
+
+
+# frontend
+/llm-frontend/node_modules/
+/llm-frontend/package-lock.json
