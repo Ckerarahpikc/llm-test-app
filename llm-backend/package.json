@@ -2,7 +2,7 @@
   "dependencies": {
     "@ai-sdk/google": "^3.0.80",
     "@google/genai": "^2.6.0",
-    "ai": "^6.0.193",
+    "ai": "^6.0.195",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
@@ -14,7 +14,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node index.js"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
