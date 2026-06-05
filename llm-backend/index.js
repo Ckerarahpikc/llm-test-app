@@ -1,39 +1,44 @@
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
-const { GoogleGenAI } = require("@google/genai");
+const logger = require("morgan");
+const { createGoogleGenerativeAI } = require("@ai-sdk/google");
+const {
+  streamText,
+  convertToModelMessages,
+  convertToDataStreamResponse,
+} = require("ai");
 require("dotenv").config({ path: "./.env" });
 
 // APPLICATION SETUP
 const app = express();
-app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
+app.use(logger("dev"));
+
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.AI_GATEWAY_API_KEY,
+});
 
 // INITIALIZE UNIFIED GEMINI SDK
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 app.post("/api/chat", async (req, res) => {
   try {
-    const { message } = req.body;
+    const { messages } = req.body;
 
-    if (!message) {
-      return res.status(400).json({ status: "Message is required" });
-    }
+    const modelMessage = await convertToModelMessages(messages);
 
     // generate the content using sdk syntax
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: message,
+    const result = streamText({
+      model: google("gemini-2.5-flash"),
+      messages: modelMessage,
     });
 
-    res.json({ reply: response.text });
+    result.pipeUIMessageStreamToResponse(res);
   } catch (err) {
     res.status(500).json({ status: "Something went wrong." });
   }
 });
 
-const PORT = process.env.PORT || 2000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`> ✅ App running on http://localhost:${PORT}`);
 });
