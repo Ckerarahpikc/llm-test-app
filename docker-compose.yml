@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  backend:
+    build: ./llm-backend
+    ports:
+      - "2000:2000"
+    env_file:
+      - ./llm-backend/.env
+
+  frontend:
+    build: ./llm-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
