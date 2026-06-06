@@ -36,20 +36,22 @@ function App() {
     <div
       style={{
         width: "100%",
-        height: "100vh",
-        margin: "0 auto",
+        // height: "100vh",
+        // margin: "0 auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
+        overflow: "hidden",
       }}
     >
       <div
         style={{
           width: "100%",
-          overflowY: "hidden",
-          padding: "10px",
-          marginBottom: "10px",
+          overflowY: "auto",
+          overflowX: "hidden",
+          // padding: "10px",
+          // marginBottom: "10px",
           display: "flex",
           flexDirection: "column",
         }}
@@ -136,7 +138,7 @@ function App() {
       <form
         onSubmit={onSubmit}
         style={{
-          position: "relative",
+          position: "fixed",
           display: "flex",
           gap: "10px",
           minWidth: "900px",
