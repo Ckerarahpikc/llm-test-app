@@ -11,3 +11,8 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+frontend/ ├── src/ │ ├── App.jsx # React Router setup (defines /chat, /login,
+/profile) │ ├── pages/ # Top-level page views │ │ ├── ChatPage.jsx │ │ ├──
+LoginPage.jsx │ │ └── UserPage.jsx │ ├── components/ # Reusable UI pieces │ │
+├── ChatBox.jsx │ │ ├── MessageBubble.jsx │ │ └── Navbar.jsx │ └── api/ # Axios
+or Fetch calls to your Express backend │ └── apiClient.js
