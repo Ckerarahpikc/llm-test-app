@@ -1,15 +1,37 @@
-version: "3.8"
-services:
-  backend:
-    build: ./llm-backend
+version: "3.8" # version of the compose specification
+services: # everything inside this is basically a container
+  db: # name of the service containers name
+    image: postgres:15-alpine
     ports:
+      - "5050:5432" # port forwarding machine between host and internal container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Ckerarahpikc123
+      POSTGRES_DB: llm_db
+    volumes:
+      - postgres_data:/var/lib/posgresql/data
+
+  backend: # backend & frontend, those are the name of the containers
+    build: ./llm-backend # it's saying go to this folder get Dockerfile and create an image from that
+    ports: # local port : container port - bridge from my computer to the dockers container
       - "2000:2000"
-    env_file:
+    env_file: # adding env variables securely to the docker container
       - ./llm-backend/.env
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - ./llm-backend:/src # mirrors my local files into the containers 'src' folder
+      - /src/node_modules # this keeps node_modules isolated from the host machine
+    depends_on:
+      - db
 
   frontend:
     build: ./llm-frontend
     ports:
       - "5173:5173"
-    depends_on:
+    depends_on: # tells frontend to not boot up until the backend is not fully started
       - backend
+
+volumes:
+  postgres_data:

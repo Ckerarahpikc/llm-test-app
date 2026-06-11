@@ -5,3 +5,54 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model conversations {
+  id             Int        @id @default(autoincrement())
+  title          String     @default("New chat") @db.VarChar(100)
+  created_at     DateTime?  @default(now()) @db.Timestamp(6)
+  tokens_spended Int        @default(0)
+  messages       messages[]
+}
+
+model messages {
+  id              Int            @id @default(autoincrement())
+  user_id         Int?
+  conversation_id Int?
+  content         String
+  created_at      DateTime?      @default(now()) @db.Timestamp(6)
+  conversations   conversations? @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_conversation")
+  users           users?         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+}
+
+model settings {
+  id           Int        @id @default(autoincrement())
+  user_id      Int?       @unique(map: "unique_user_id")
+  notification Boolean    @default(true)
+  theme        theme_type @default(System)
+  users        users?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_settings_user")
+}
+
+model users {
+  user_name            String            @db.VarChar(30)
+  user_nickname        String            @db.VarChar(30)
+  email                String            @unique(map: "unique_email") @db.VarChar(60)
+  birth_date           DateTime?         @db.Date
+  date_entered         DateTime          @db.Timestamp(6)
+  id                   Int               @id @default(autoincrement())
+  subscription         subscription_type
+  total_tokens_spended Int               @default(0)
+  messages             messages[]
+  settings             settings?
+}
+
+enum subscription_type {
+  Basic
+  Premium
+  Professional
+}
+
+enum theme_type {
+  Light
+  Dark
+  System
+}

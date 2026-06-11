@@ -1,7 +1,7 @@
-const SetUpError = require("./SetUpError");
+import SetUpError from "./SetUpError.js";
 
 // ^ HANDLING ERRORS
-exports.handleErrorsType = (name, error) => {
+export default function handleErrorsType(name, error) {
   switch (name) {
     case "CastError":
       // assigning something incorrect
@@ -32,4 +32,4 @@ exports.handleErrorsType = (name, error) => {
     default:
       return 0;
   }
-};
+}

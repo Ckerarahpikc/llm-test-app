@@ -1,11 +1,12 @@
-const express = require("express");
-const cors = require("cors");
-const logger = require("morgan");
-require("dotenv").config({ path: "./.env" });
+import express from "express";
+import cors from "cors";
+import logger from "morgan";
+import dotenv from "dotenv";
+dotenv.config();
 
-const chatRoute = require("./routes/chatRoute");
-const userRoute = require("./routes/userRoute");
-const GECC = require("./controllers/GECC");
+import chatRoute from "./routes/chatRoute.js";
+import authRoute from "./routes/authRoute.js";
+import GECC from "./controllers/GECC.js";
 
 // CONFIGURE APPLICATION
 const app = express();
@@ -18,11 +19,9 @@ app.use(
 );
 app.use(logger("dev"));
 
-// ROUTES
-const router = express.Router();
-
+// ROOT ROUTES
 app.use("/api/v1/chat", chatRoute);
-app.use("/api/v1/users", userRoute);
+app.use("/api/v1/users", authRoute);
 app.use(/(.*)/, GECC); // global error catch controller
 
-module.exports = app;
+export default app;

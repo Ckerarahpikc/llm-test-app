@@ -1,6 +1,7 @@
-const router = require("express").Router();
+import express from "express";
 
-const userController = require("../controllers/userController");
+import * as userController from "../controllers/userController.js";
+const router = express.Router();
 
 // AUTHENTICATION ROUTES
 
@@ -11,4 +12,4 @@ const userController = require("../controllers/userController");
 // USER ROUTES (dev routes)
 router.get("/", userController.getAllUsers);
 
-module.exports = router;
+export default router;

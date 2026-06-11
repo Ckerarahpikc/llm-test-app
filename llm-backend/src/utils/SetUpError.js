@@ -11,4 +11,4 @@ class SetUpError extends Error {
   }
 }
 
-module.exports = SetUpError;
+export default SetUpError;

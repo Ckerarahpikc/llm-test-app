@@ -1,14 +1,16 @@
 // GLOBAL ERROR CATCH CONTROLLER
 // it will catch every error occurs in our app
 // if and only the routes didn't catch any queries
-require("dotenv").config();
-const { handleErrorsType } = require("./../utils/handleErrorsType"); // handleErrorsType(name<String>, error<Object>);
+import dotenv from "dotenv";
+dotenv.config();
 
-module.exports = (err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || "error";
+import handleErrorsType from "./../utils/handleErrorsType.js"; // handleErrorsType(name<String>, error<Object>);
+
+export default (err, req, res, next) => {
   const handledError = handleErrorsType(err.name || err.code, err) || err;
-  const nodeenv = process.env.NODE_ENV;
+  const nodeenv = process.env.NODE_ENV?.trim(); // emmiting any spaces (bulletproof)
+  err.statusCode = handledError.statusCode || 500;
+  err.status = handledError.status || "error";
 
   if (nodeenv === "development") {
     return res.status(handledError.statusCode).json({
