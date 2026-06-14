@@ -9,3 +9,15 @@ export default defineConfig({
     url: dataBaseUrlString,
   },
 });
+
+// golden rules for me:
+// if you changed the prisma.schema:
+//  either run "npx prisma db push"
+//  then "npx prisma generate"
+//
+//  or run "npx prisma migrate dev --user name_of_the_timestamp"
+//  then "npx prisma generate"
+//
+// but if the posgresql changed:
+//  run "npx prisma db pull"
+//  then "npx prisma generate"

@@ -15,4 +15,10 @@ const pool = new Pool({
 const adapter = new PrismaPg(pool);
 
 // now export the prisma client
-export const prisma = new PrismaClient({ adapter });
+export const prisma = new PrismaClient({
+  log:
+    process.env.NODE_ENV === "development"
+      ? ["warn", "query", "error"]
+      : ["error"],
+  adapter,
+});

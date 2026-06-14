@@ -1,6 +1,6 @@
 import express from "express";
 
-import * as userController from "../controllers/userController.js";
+import * as authController from "../controllers/authController.js";
 const router = express.Router();
 
 // AUTHENTICATION ROUTES
@@ -10,6 +10,7 @@ const router = express.Router();
 // router.get("/logout", userController.logout);
 
 // USER ROUTES (dev routes)
-router.get("/", userController.getAllUsers);
+router.post("/login", authController.login);
+router.post("/register", authController.register);
 
 export default router;

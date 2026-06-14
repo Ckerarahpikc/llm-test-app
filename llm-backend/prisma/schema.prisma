@@ -33,14 +33,16 @@ model settings {
 }
 
 model users {
-  user_name            String            @db.VarChar(30)
-  user_nickname        String            @db.VarChar(30)
+  name                 String            @db.VarChar(30)
+  nickname             String            @default("User") @db.VarChar(30)
   email                String            @unique(map: "unique_email") @db.VarChar(60)
   birth_date           DateTime?         @db.Date
-  date_entered         DateTime          @db.Timestamp(6)
+  date_entered         DateTime          @default(now()) @db.Timestamp(6)
   id                   Int               @id @default(autoincrement())
-  subscription         subscription_type
+  subscription         subscription_type @default(Basic)
   total_tokens_spended Int               @default(0)
+  password             String
+  usertype             user_type?        @default(user)
   messages             messages[]
   settings             settings?
 }
@@ -55,4 +57,9 @@ enum theme_type {
   Light
   Dark
   System
+}
+
+enum user_type {
+  user
+  admin
 }
