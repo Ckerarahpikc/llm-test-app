@@ -7,3 +7,4 @@
 # frontend
 /llm-frontend/node_modules/
 /llm-frontend/package-lock.json
+/llm-frontend/.env
